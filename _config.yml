@@ -6,6 +6,8 @@ author:
 description: >- # this means to ignore newlines until "baseurl:"
   Tutorials and implementations of machine learning and robotics algorithms.
 
+permalink: /posts/:title
+
 # Build settings
 theme: minima
 plugins:
