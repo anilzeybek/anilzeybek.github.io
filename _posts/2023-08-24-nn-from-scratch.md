@@ -664,7 +664,7 @@ we will simply add those derivatives. The implementation has already been doing 
 
 This also comes from the *chain rule*, which can also be written as:
 
-$$ \frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial x} + \frac{\partial m}{\partial w} \cdot \frac{\partial w}{\partial x}
+$$ \frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial x} + \frac{\partial z}{\partial w} \cdot \frac{\partial w}{\partial x}
  $$
 
 ### 5. Update the parameters by subtracting their scaled derivatives
