@@ -7,23 +7,23 @@ categories: misc
 
 In this tutorial, we will learn two different methods to implement neural networks from scratch:
 - Extremely simple method: ***Finite difference***
-- Still very simple method: ***Backpropagation***
+- Still a very simple method: ***Backpropagation***
 
-At the end, we will have the code to teach neural networks about the AND and XOR gates. If you don't know what they are, 
+In the end, we will have the code to teach neural networks about the AND and XOR gates. If you don't know what they are, 
 don't worry, they are super basic. You will understand it when we come to that part. But know that our implementation
 at the end will be able to learn much more complex structures than such binary gates.
 
-But let's start with understanding the very high level concept behind neural networks.
-They have the following high level steps:
+But let's start with understanding the very high-level concept behind neural networks.
+They have the following high-level steps:
 1. Create your network with trainable parameters
 2. Run your neural network and get your output, let's call it the prediction
 3. Based on this prediction and the value it should actually be, calculate the loss
-(test how bad the network at predicting)
+(test how bad the network is at predicting)
 4. Find the derivatives of the loss function for its parameters
 5. Update the parameters by subtracting their scaled derivatives
 6. Go to step 2 unless you are happy with the predictions of your neural network
 
-These steps will look something like this in code:
+These steps will look something like this in the code:
 {% highlight python %}
 model = NN()                           # 1
 
@@ -40,14 +40,14 @@ while you_are_not_happy:               # 6
 Look's pretty easy, huh? Let's go step by step:
 
 ### 1. Create your neural network with trainable parameters
-Definition of neural networks can be very broad, but for learning purposes let's imagine it as a function that takes
+The definition of neural networks can be very broad, but for learning purposes let's imagine it as a function that takes
 a number input of any size, and multiplies it with some `parameters`. These parameters are created randomly.
 The key part here is that after this step,
 you process the results with some kind of a non-linear function, and re-iterate these steps many times 
 with different parameters, of course.
 
 It can be a little bit hard to understand this concept, but it is actually ***very*** simple. You'll see how simple it
-is when you see the code for it. But you should note that number of parameters depends on the data you will feed.
+is when you see the code for it. However, you should note that the number of parameters depends on the data you will feed.
 For our simple case, consider we are trying to learn the AND gate. If you don't know, you can think of the AND
 gate is a function that takes two values, 0 or 1, and returns 0 if any of the inputs is 0, and 1 otherwise.
 It looks like this:
@@ -79,21 +79,21 @@ class NN:
 
 {% endhighlight %}
 
-Yes, this is extremely simple and it's actually not very capable of learning. This is because we missed some key
-elements. One of them is that we need a non-linear function, also known as *activation functions*. 
+Yes, this is extremely simple and it's not very capable of learning. This is because we missed some key
+elements. One of them is that we need a non-linear function, also known as *activation function*. 
 
 There are several very popular candidates for it and you may have heard of them before, like *Sigmoid*, *TanH* and
 *ReLU* functions. For simplicity, let's only learn about the sigmoid.
 
-Sigmoid function is a function that given any value, it squashes it between 0 and 1. If you feed a very big number
+A sigmoid function is a function that given any value, squashes it to be between 0 and 1. If you feed a very big number
 like 46598, it will give almost 1 and if you feed -73412, it will give almost 0. For input 0 it will give 0.5. 
 This function looks something like this:
 
 $$ \sigma(x) = \frac{1}{1+e^{-x}} $$
 
 This function may seem complicated, but the intuition behind is very simple, just squash the numbers to be between
-0 and 1. This is a very popular activation function used in lot's of places. There are more modern alternatives
-exists, but we will stick with this for now.
+0 and 1. This is a very popular activation function used in lots of places. There are more modern alternatives
+exist, but we will stick with this for now.
 
 Now let's implement and use it:
 
@@ -120,7 +120,7 @@ class NN:
 
 This is great and we are almost done with the definition of our Neural Network. But one more thing we will be adding
 to it: Another parameter that we will use to add instead of multiplying. The only reason we add one more parameter is
-to increase the capabilities of our network. More operations it can do, more things it can learn!
+to increase the capabilities of our network. The more operations it can do, the more things it can learn!
 
 We will add this parameter to the multiplication result:
 
@@ -147,12 +147,12 @@ class NN:
 {% endhighlight %}
 
 Now our architecture is completely ready! If you ever heard of the terms weights and biases in the context of
-neural networks, our first two parameters are weights and the third parameter is the bias. Weights to get multiplied,
-biases gets added.
+neural networks, our first two parameters are weights and the third parameter is the bias. Weights get multiplied,
+and biases get added.
 
 ### 2. Run your neural network and get your output
 
-We have our network defuned now, we can call its forward function to start getting some output. First let's define
+We have our network defined now, we can call its forward function to start getting some output. First, let's define
 our data and start predicting values:
 
 {% highlight python %}
@@ -183,14 +183,14 @@ predicted: 0.80, real value: 0
 predicted: 0.82, real value: 1
 ```
 
-Now you are seeing how bad our neural networks is, because we haven't trained it yet.
+Now you are seeing how bad our neural network is. It's simply because we haven't trained it yet.
 
 Notice that no matter
 what initial parameters you set, the prediction will always be between 0 and 1 thanks to the sigmoid function.
 
 ### 3. Based on the prediction and the value it should actually be, calculate the loss
 
-By loss, we mean assessing how bad our network is performing. Clearly right now it performs very bad, we should get a
+By loss, we mean assessing how badly our network is performing. Right now it performs very badly, we should get a
 high number. To get a numeric value, we can sum up the differences between each prediction and it's supposed to be
 real value:
 
@@ -216,19 +216,20 @@ managed to give perfect predictions, our loss would be `0`.
 ### 4. Find the derivatives of the loss function for its parameters
 
 Now we found the loss value and it is clear that we want it to be close to 0 as possible.
-Lower the loss result, better the predictions are. One way to decrease it is using the ***gradient descent*** algorithm.
+The lower the loss result, the better the predictions are. One way to decrease it is using the ***gradient descent*** 
+algorithm.
 
 #### Finite difference
 
-Gradient descent algorithm requires finding the derivatives of the parameters with respect to the loss, but this is not 
-intuitive. Instead we'll learn a **very** intuitive way of decreasing the loss value and it would be equivalent to
+The gradient descent algorithm requires finding the derivatives of the parameters for the loss, but this is not 
+intuitive. Instead, we'll learn a **very** intuitive way of decreasing the loss value and it would be equivalent to
 gradient descent algorithms used by popular frameworks like PyTorch, called finite difference.
 
 For each parameter, we will add some very small value to it and check the loss again. If the new loss is smaller,
 then we will change this parameter's value in that direction. If the new loss is bigger, we will change it in the
-opposite direction. Isn't it very easy? After doing this for many steps, we expect loss to be a very small value.
+opposite direction. Isn't it very easy? After doing this for many steps, we expect the loss to be a very small value.
 
-Now we'll implement this in Python. But first, let's make the code so far a bit more structural to make thins fit
+Now we'll implement this in Python. But first, let's make the code so far a bit more structural to make this fit
 perfectly:
 
 {% highlight python %}
@@ -290,8 +291,8 @@ for _ in range(1000):
 
     for i in range(len(model.parameters)):
         model.parameters[i] -= changes[i] 
-        # we subtract changes[i] because if change is positive it means we did bad
-        # we want to go to opposite direction
+        # we subtract changes[i] because if the change is positive it means we did bad
+        # we want to go in the opposite direction
 {% endhighlight %}
 
 And here you go! You implemented your first neural network. Now if you run this you'll see that the loss will be almost
@@ -307,7 +308,7 @@ for d in data:
 
 You'll see you get almost correct results. For 1 & 1, it will give something like 0.95 but you can always round it :)
 
-Now what we actually did is approximating the derivatives. Derivative actually means change and this is what we
+Now what we actually did is approximating the derivatives. Derivative means change and this is what we
 have done. In fact, the mathematical definition of derivative is:
 
 $$ L = \lim_{h \rightarrow 0} \frac{f(a+h) - f(a)}{h} $$
@@ -316,11 +317,10 @@ And if you set h to 1, you get:
 
 $$ L = f(a+1) - f(a) $$
 
-Which is exactly what we did! We increased the parameter by one and looked at the difference, and used it as our
+Which is exactly what we did! We increased the parameter by one and looked at the difference. Then we used it as our
 derivative.
 
-But your instincts might have said 1 is a too big of a value to add when you saw the code. In fact,
-it is the case. We should use a lower value and as the definition of derivative says, we should divide by that number
+But your instincts might have said 1 is too big of a value to add when you saw the code. And you are right. We should use a lower value and as the definition of derivative says, we should divide by that number
 also:
 
 {% highlight python %}
@@ -341,16 +341,16 @@ for _ in range(1000):
 
     for i in range(len(model.parameters)):
         model.parameters[i] -= derivatives[i]
-        # we subtract changes[i] because if change is positive it means we did bad
-        # we want to go to opposite direction
+        # we subtract changes[i] because if the change is positive it means we did bad
+        # we want to go in the opposite direction
 {% endhighlight %}
 
-Now we are really talking! This is a valid gradient descent algorithm implemented and you will see it works.
+Now we are talking! This is a valid gradient descent algorithm implemented and you will see it works.
 
-But this algorithm has actually two very big disadvantage:
+But this algorithm has two very big disadvantages:
 1. It will be very slow as it requires computing loss again and again for each parameter change. We can have 
 millions of parameters
-2. For complex networks, we may need to decrease the h value furthermore for best derivative calculation, but
+2. For complex networks, we may need to decrease the h value further for best derivative calculation, but
 it can be impossible since computers can work up to a certain precision
 
 #### Backpropagation
@@ -369,12 +369,12 @@ $$ (x^2 + 3) ^ 2 + y $$
 ![](/assets/graph2.png)
 
 
-As it can be seen, it's just writing the operations in a different way. But the magical think about computation graphs
+As it can be seen, it's just writing the operations differently. But the magical thing about computation graphs
 is that it can help us to find the derivatives easily for any function.
 Let's see the process first and understand how it works later on.
 
-First, for each edge coming to an operation node, we write the derivative of that operation on top of it. Cool part
-is that we don't need to find the gradients up until that point. For example if we want to find the derivative of *a+b*,
+First, for each edge coming to an operation node, we write the derivative of that operation on top of it. The cool part
+is that we don't need to find the gradients up until that point. For example, if we want to find the derivative of *a+b*,
 there will be a single operation node and each edge will get 1 as:
 
 $$ \frac{\partial (a+b)}{\partial a} = 1\ \ \ \ \ \ \ \ \ \frac{\partial (a+b)}{\partial b} = 1$$
@@ -394,11 +394,10 @@ Let's write these equations on top of the edges for our last graph:
 
 ![](/assets/graph3.png)
 
-We are almost done. The only thing we need to do know is multiplying the edges between the output and the variable
+We are almost done. The only thing we need to do now is multiply the edges between the output and the variable
 you want to find its derivative.
 
-If we want to find the derivative of *y*, then it's simply 1 because there is a singleedge between it and output and
-it's 1.
+If we want to find the derivative of *y*, then it's simply 1 because there is a single edge between it and the output, and it's 1.
 
 For the derivative of *x*, it will be: 
 
@@ -418,22 +417,22 @@ When we substitute we get:
 
 $$ 4x(x^2+3) $$
 
-Which is actually true if you check it from the [WolframAlpha](https://www.wolframalpha.com/input?i=derivative+of+%28x%5E2+%2B+3%29+%5E+2+%2B+y+for+x).
+This is true if you check it from the [WolframAlpha](https://www.wolframalpha.com/input?i=derivative+of+%28x%5E2+%2B+3%29+%5E+2+%2B+y+for+x).
 
-This approach we learned is called automatic gradient. This is the core of the all neural network libraries. Now we'll
+This approach we learned is called automatic gradient. This is the core of all neural network libraries. Now we'll
 understand why this works.
 
 There is a concept called *Chain rule* in calculus. It looks like this:
 
 $$ \frac{\partial z}{\partial x} = \frac{\partial z}{\partial y} \cdot \frac{\partial y}{\partial x} $$
 
-This rule says that we can compose basic operation derivatives to get the full derivative, which is what we had done
+This rule says that we can compose basic operation derivatives to get the full derivative, which is what we have done
 so far. We multiplied basic derivatives for `f = (x^2 + 3)^2 + y`. You can see this by giving names to each node output
 that goes to x:
 
 ![](/assets/graph5.png)
 
-And this can be now translated to chain rule as:
+This can be now translated to chain rule as:
 
 $$ \frac{\partial L}{\partial x} = \frac{\partial L}{\partial k} \cdot \frac{\partial k}{\partial m} \cdot \frac{\partial m}{\partial n} \cdot \frac{\partial m}{\partial x}$$
 
@@ -498,9 +497,9 @@ z = x + y
 {% endhighlight %}
 
 Then the `__add__` function of the *Variable x* will be called. *z* will have *x* and *y* as it's previous variables and
-it's value will be `x.value + y.value`.
+its value will be `x.value + y.value`.
 
-The fun part is the `backward` function. This function will calculate the derivative for all variables that's
+The fun part is the `backward` function. This function will calculate the derivative for all variables that are
 a part of the computation graph and has the attribute `requires_grad`.
 
 Let's go through this function step-by-step for the `(x**2 + 3)**2 + y`.
@@ -518,18 +517,18 @@ print(y.grad)
 
 *z*'s last operation is *add*, so when the `z.backward()` called, it will recursively call the backward for *prev_var1*
 and *prev_var2*. *prev_var1* is `(x**2 + 3)**2` and *prev_var2* is `y`. We will accumulate the derivative at the
-`current_grad` variable. It will basically be accumulated by derivatives we found for add, multiply and power operations.
+`current_grad` variable. It will basically be accumulated by derivatives we found for add, multiply, and power operations.
 
-If you are having a hard time understanding the `backward` function, you should take a look at the algorithms
+If you are having a hard time understanding the `backward` function, you should take a look at algorithms
 like DFS and maybe try learning a bit more about processing the graphs. I will not go into the depth of this as
-I already visually demonstrated what this function does. So you actually know what's going on.
+I already visually demonstrated what this function does. So you know what's going on.
 
-Now, if you tried to run the last code block, you will notice that it will throw an error. The reason is after we call
+Now, if you try to run the last code block, you will notice that it will throw an error. The reason is after we call
 `x**2`, `__add__` function will try to access the value attribute for the number 2, which has no such attribute
-since it is just basic type of integer.
+since it is just a basic type of integer.
 
 To fix this we need to convert any value to `Var` if it already isn't. And before giving the full code, we will also
-take into considerations like `2 + x`. This would also throw an error since this won't be calling the `__add__`
+take into consideration the operations like `2 + x`. This would also throw an error since this won't be calling the `__add__`
 function of the `Var` class. It should strictly be after the x, like `x + 2`. To fix it we need to add some other
 magic function.
 
@@ -622,10 +621,10 @@ class Var:
             self.grad += current_grad
 {% endhighlight %}
 
-Congrulations! You just implemented your backpropagation algorithm from scratch! Let's finish our AND example by
+Congratulations! You just implemented your backpropagation algorithm from scratch! Let's finish our AND example by
 gluing the rest of the functions.
 
-Before that, we need to talk about one more simple thing. We can't simply subtract the gradient from parameter's
+Before that, we need to talk about one more simple thing. We can't simply subtract the gradient from the parameter's
 value. We need to scale the gradient. This is done by something called *learning rate*. It is usually set to values
 like 0.001. But there is no formula for it, you need to adjust them until you see a good value.
 
@@ -687,7 +686,7 @@ for d in data:
 {% endhighlight %}
 
 
-And here it is! We have successfully trained our network for the AND gate. If you run it it you will see it correctly
+And here it is! We have successfully trained our network for the AND gate. If you run it you will see it correctly
 predicts the bits.
 Now let's try the XOR gate. So our data becomes:
 
@@ -700,7 +699,7 @@ data = [
 ]
 ```
 
-We keep everything rest the same, and run again, but we fail to learn this time. Network predicts 0.5 for every input.
+We keep everything rest the same, and run again, but we fail to learn this time. The network predicts 0.5 for every input.
 The reason is our network is simply not capable of representing the XOR gate.
 
 We will fix this by adding additional layers to our network model. Until now, our neural network looked something like
@@ -708,7 +707,7 @@ this:
 
 ![](/assets/nn1.png)
 
-Each edge shows our weights (parameter 1 and 2), and we add bias (parameter) 3 at the output layer.
+Each edge shows our weights (parameters 1 and 2), and we add bias (parameter) 3 at the output layer.
 
 To increase the capabilities of our network, we will simply add a hidden layer. So it will look like:
 
@@ -718,15 +717,15 @@ We could even add more layers and each layer can have any number of nodes:
 
 ![](/assets/nn3.png)
 
-We need a different parameter for each edge now, and for non-input layers we will need biases for each node. These
+We need a different parameter for each edge now, and for non-input layers, we will need biases for each node. These
 nodes at the non-input layers are called *neurons*. We can have as many neurons and layers in neural networks. In
-the last architecture image, there are 6 neurons in the first hidden layer, and 4 neurons in the second hidden layer.
+the last architecture image, there are 6 neurons in the first hidden layer and 4 neurons in the second hidden layer.
 An important part here is that we need to use the activation functions after every layer.
 
 The reason we need this is that if we don't do that, extra layers will lose all the benefits they add. Because
 without non-linear functions it's all multiplying and adding. Even if you have 1000 layers, without non-linearity
-they will be able to replicated by a single layer. If you take any number and multiply it with thousands of numbers
-and add thousands of numbers, same result can be achieved by multiplying it with a single number and adding a single
+they all can be simplified to a single layer. If you take any number and multiply it with thousands of numbers
+and add thousands of numbers, the same result can be achieved by multiplying it with a single number and adding a single
 number: 
 
 $$ (((xa + b)c + d)e + f) = xg + h $$
@@ -735,7 +734,7 @@ So we need activation functions after calculating the value for every neuron.
 
 Let's get back to implementation.
 We can generalize our neural network implementation to be flexible for any type of architecture easily, but
-this is not related with tutorial. It's simply requires many loops. But I will give you a repository at the end if you 
+this is not related to this tutorial. It simply requires many loops. But I will give you a repository at the end if you 
 want to see how you can implement it.
 
 Now our network instead will have one additional hidden layer with two neurons. It will have a total of 9 parameters:
@@ -788,13 +787,13 @@ class NN:
         return loss
 {% endhighlight %}
 
-Now if you increase the learning rate to 1 (its actually a pretty big for a learning rate but works well in this
-example), and increase the number of iterations to 2000, you'll see it learns XOR gate in a couple of seconds!
+Now if you increase the learning rate to 1 (it is actually a pretty big for a learning rate but works well in this
+example), and increase the number of iterations to 2000, you'll see it learns the XOR gate in a couple of seconds!
 
 Here is the full code in a single file: [https://gist.github.com/anilzeybek/3e96b4fc48e59612dc3f56586b233718](https://gist.github.com/anilzeybek/3e96b4fc48e59612dc3f56586b233718).
 
 Here is a repository that includes both backprop and finite difference implementations and NN implementation
 can represent any number of layers and neurons, as well as a pytorch version of all: [https://github.com/anilzeybek/nn-from-scratch](https://github.com/anilzeybek/nn-from-scratch).
 
-If you've managed read this far, congrulations. Now you know how the neural networks work. As simple as them, they
+If you've managed to read this far, congratulations. Now you know how the neural networks work. As simple as they are, they
 are extremely powerful. Good luck to you in your future studies.
