@@ -2,7 +2,6 @@
 layout: post
 title:  "Implementing Neural Networks Step-by-Step from Scratch!"
 date:   2023-08-24 14:22:31 +0200
-categories: misc
 ---
 
 In this tutorial, we will learn two different methods to implement neural networks from scratch:
