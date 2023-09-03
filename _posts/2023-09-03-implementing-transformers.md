@@ -6,7 +6,7 @@ date:   2023-09-03 14:22:31 +0200
 
 In this tutorial, we will implement transformers step-by-step and understand their implementation. There are other
 great tutorials on the implementation of transformers, but they usually dive into the complex parts too early, like they
-directly start implementing additionaly parts like masks and multi-head attention, but it is not very intuitional
+directly start implementing additional parts like masks and multi-head attention, but it is not very intuitional
 without first building the core part of the transformers.
 
 Because of that, we will first implement a basic transformer, without any additional stuff like masking, positional
@@ -202,7 +202,7 @@ class Attention(nn.Module):
         similarity = Q @ K.T
 ```
 
-Now we have found the similarity, we will pass it through the `softmax` function to find how much similarity will effect
+Now we have found the similarity, we will pass it through the `softmax` function to find how much similarity will affect
 the *value* of each token. We can do this by directly multiplying the `softmax` result with the `value` matrix.
 
 
