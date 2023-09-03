@@ -22,10 +22,9 @@ that. But I know the vision. In the Vision Transformers blog, we will apply what
 honest, that implementation will be much simpler.
 
 Anyway, let's start understanding the implementation of transformers. We need to have data first. Apart from most of
-the other transformers implementation tutorials, we will use real data. It is the `opus 100` dataset's English to
-German translation. We can start our implementation by downloading the dataset. We will use HuggingFace's `datasets`
-library for that:
-
+the other transformers implementation tutorials, we will use real data. Specifically we will use`opus 100` dataset's
+English to German translation. We can start our implementation by downloading the dataset. We will use HuggingFace's
+`datasets` library for that:
 
 ```python
 import datasets
@@ -38,7 +37,7 @@ dataset = datasets.load_dataset("opus100", "de-en")["train"].select(range(50))
 ```
 
 Note that we have selected the first 50 data, or running the code will take a lot of time. Also, we will be using the
-same exact dataset for testing, because we are just trying to understand if our network is working. Testing on the
+same dataset for testing, because we are just trying to understand if our network is working. Testing on the
 test data will require a lot of computation which is not ideal for a tutorial.
 
 Anyway, the loaded `dataset` is iterable and we can peek into it:
@@ -59,8 +58,8 @@ use the indexes of each token to convert it into a number. Of course, we need to
 and German words.
 
 An important part here is we also need to add the `<EOS>` token to the target tokens. Because we will use that token to
-first give into the decoder later on and we will expect the network to predict `<EOS>` when the translation is done. If you
-don't know what I am talking about, I again suggest you watch the
+first give into the decoder later on and we will expect the network to predict `<EOS>` when the translation is done. If
+you don't know what I am talking about, I again suggest you watch this
 [video](https://www.youtube.com/watch?v=zxQyTK8quyY){:target="_blank"}.
 
 
@@ -113,7 +112,7 @@ for data in dataset:
     dataset_numeric.append(numeric_data)
 ```
 
-Here we go, `dataset_numeric` is now a list with numeric values instead of text. You can take a look inside it.
+Here we go, `dataset_numeric` is now a list with numeric values instead of text. You can take a look inside of it.
 
 Now we have our data ready, we can start implementing our transformer module. The first step of transformers is that we need
 to have an embedding for our sequences. Let's say our embedding dimension will be *4*. So each numeric token will be
@@ -163,7 +162,8 @@ class Attention(nn.Module):
         self.W_v = nn.Linear(embed_dim, embed_dim)
 
     def forward(self, x, y, z):
-        # x, y and z will be all same for encoder attention, and each will be sequence of embeddings
+        # x, y and z will be all same for encoder attention,
+        # and each will be sequence of embeddings
         Q = self.W_q(x)
         K = self.W_k(y)
         V = self.W_v(z)
@@ -819,7 +819,8 @@ class PositionalEncoding(nn.Module):
         pe[:, 0::2] = torch.sin(position * div_term)
         pe[:, 1::2] = torch.cos(position * div_term)
 
-        # we use register_buffer instead of self.pe because we want this pe to be in the same device with transformer
+        # we use register_buffer instead of self.pe because we want 
+        # this pe to be in the same device with transformer
         self.register_buffer("pe", pe)
 
     def forward(self, x):
@@ -870,7 +871,10 @@ def tokenizer(dataset):
     source_tokens = list(source_tokens)
     target_tokens = list(target_tokens)
 
-    return source_tokens, target_tokens, max_seq_len + 2  # +2 for two <eos> in target sequences
+    # +2 for two <EOS> in target sequences
+    max_seq_len += 2
+
+    return source_tokens, target_tokens, max_seq_len
 ```
 
 Now the new transformer module:
