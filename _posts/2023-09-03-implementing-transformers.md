@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Implementing Transformers by Understanding Each Line of Code"
+title:  "Transformers Unfolded: A Layered Approach to Implementation"
 date:   2023-09-03 14:22:31 +0200
 ---
 
