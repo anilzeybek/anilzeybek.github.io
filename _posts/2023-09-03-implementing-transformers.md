@@ -1612,3 +1612,7 @@ You can see the fully functional transformer code [here](https://github.com/anil
 In the next post, we will learn about ViT, and then implement it. It will be much simpler because we will only require
 the encoder part and the positional encoding part will be much more easy to implement. I will put the link here when
 it's posted.
+
+---
+
+*Edit: You can now access to the [vision transformers blog post](https://comsci.blog/posts/vit){:target="_blank"}.*
