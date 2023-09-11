@@ -4,16 +4,16 @@ title:  "Intuituvely Understanding Harris Corner Detector"
 date:   2023-09-11 13:30:00 +0200
 ---
 
-If you ever took a computer vision course or tried to learn how Harris corner detector works, you might have
-notice that the process is not intuitive at all. First you start with an energy function, you approximate it somehow
+If you ever took a computer vision course or tried to learn how the Harris corner detector works, you might have
+noticed that the process is not intuitive at all. First, you start with an energy function, you approximate it somehow
 using Taylor approximation, get a matrix from that, then you find the eigenvalues of that matrix, etc.
-And when you go checkout the final implementation, it is rather simple, and actually seems like easier.
+And when you go check out the final implementation, it is rather simple and seems easier.
 If you are like me, this is not intuitive at all. But today I will present you a much easier method to understand
-how Harris corner detection algortihm works.
+how the Harris corner detection algorithm works.
 
 Let's start with understanding what is a corner. We can simply think of it as a connection of edges. For two edges
-to be able connect each other, they sure need to be not parallel, so looking at a corner, we should see that
-edges that will connect will move in different directions (they would be parallel if they moved to same directions):
+to be able to connect, they sure need to be not parallel, so looking at a corner, we should see that
+edges that will connect will move in different directions (they would be parallel if they moved in the same directions):
 
 ![](/assets/intuitive-harris-0.png)
 
@@ -25,7 +25,7 @@ in x ***or*** y directions. So one thing that comes to mind is multiplying the I
 and I<sub>y</sub><sup>2</sup> so that we will only see regions on the image that have a change in both x ***and*** y
 directions at the same time, just like corners!
 
-Lets start implementing this. First let's find a pretty basic image that will have lot's of corners inside it.
+Let's start implementing this. First, let's find a pretty basic image that will have lots of corners inside it.
 
 
 ```python
@@ -40,7 +40,7 @@ plt.imshow(img, cmap="gray")
  
 ![png](/assets/intuitive-harris_1_1.png)
 
-Now we can start finding the gradient of this image using the sobel operator:
+Now we can start finding the gradient of this image using the Sobel operator:
 
 
 ```python
@@ -58,13 +58,13 @@ plt.imshow(Ix**2 * Iy**2, cmap='gray')
 ![png](/assets/intuitive-harris_5_1.png)
 
 
-As you can see, we are kinda not successful, because this shows us the both corners and edges that move along
+As you can see, we are kind of not successful, because this shows us the both corners and edges that move along
 both x and y directions. But we need to get rid of the corners. 
 
 If you carefully look at this resulting image, you will notice that corners are either isolated like the top left
 corner of the B logo, or they are at the end of these edges. Maybe we can't get rid of the edges directly,
 but if somehow we can remove the corners from I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup>, we can subtract it from the original I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup> and
-get only the corners. Actually we can get rid of the corners. Since the corners are isolated in this image,
+get only the corners. Actually, we can get rid of the corners. Since the corners are isolated in this image,
 applying a Gaussian blur will decrease the intensities of the corners a lot!
 
 Let's see this:
@@ -78,7 +78,7 @@ plt.imshow(corners_suppressed, cmap='gray')
 ![png](/assets/intuitive-harris_7_1.png)
 
 We can even do a better job of removing the corners by applying the blur before squaring. Because square will increase
-the intensity of isolated corners, making it less effected from the blur. So we can instead do:
+the intensity of isolated corners, making it less affected by the blur. So we can instead do:
 
 
 ```python
@@ -89,7 +89,7 @@ plt.imshow(corners_suppressed, cmap='gray')
 ![png](/assets/intuitive-harris_9_1.png)
 
 
-Now that we have a corners mostly suppressed image, we can try subtracting this from the I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup> and get only the corners. Let's try it:
+Now that we have the corners mostly suppressed image, we can try subtracting this from the I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup> and get only the corners. Let's try it:
 
 
 ```python
@@ -98,13 +98,13 @@ plt.imshow(Ix**2 * Iy**2 - corners_suppressed, cmap='gray')
     
 ![png](/assets/intuitive-harris_11_1.png)
 
-That doesn't seem to work. Actually the reason is clear. Edges of the I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup>
+That doesn't seem to work. The reason is clear. Edges of the I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup>
 have different intensity than `corners_suppressed`, since `corners_suppressed` has been blurred.
-We want them to have same intensity in edges so that they cancel the edges when they subtracted.
+We want them to have the same intensity in edges so that they cancel the edges when they are subtracted.
 
 We can actually make the edges of I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup> similar intensity by applying
 Gaussian blur to I<sub>x</sub><sup>2</sup> and I<sub>y</sub><sup>2</sup> seperately before multiplying them.
-We will apply the blur to squared gradients to make sure the corners are less affected from the blur.
+We will apply the blur to squared gradients to make sure the corners are less affected by the blur.
 
 
 ```python
@@ -117,7 +117,7 @@ plt.imshow(corners, cmap='gray')
 ![png](/assets/intuitive-harris_13_1.png)
     
 Yes! We successfully get the corners of the image. Now if we look at the `corners` matrix, you will notice that
-corners has extremely large values and other parts have smaller values. Let's threshold it:
+corners have extremely large values and other parts have smaller values. Let's threshold it:
 
 
 ```python
@@ -147,8 +147,8 @@ plt.show()
 ![png](/assets/intuitive-harris_17_0.png)
     
 
-And with this, we have implemented the Harris corner detection algorithm and we haven't talked about thing like
-fitting ellipses, Taylor series approximation or any of that stuff. And this implementation is equivalent to the
+And with this, we have implemented the Harris corner detection algorithm and we haven't talked about things like
+fitting ellipses, Taylor series approximation, or any of that stuff. This implementation is equivalent to the
 other implementations of this algorithm.
 
-Hopefully you now understand how this algorithm works and enjoyed it.
+Hopefully, you now understand how this algorithm works and enjoy it.
