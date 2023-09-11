@@ -48,7 +48,7 @@ Ix = cv2.Sobel(img, ddepth=cv2.CV_32F, dx=1, dy=0)
 Iy = cv2.Sobel(img, ddepth=cv2.CV_32F, dx=0, dy=1)
 ```
 
-Okay, we are there now. Let's plot the I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup>, we are expecting it to give us regions with both x and y directions:
+Okay, we are there now. Let's plot the I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup>, we are expecting it to give us regions with both x and y directions:
 
 
 ```python
@@ -63,7 +63,7 @@ both x and y directions. But we need to get rid of the edges.
 
 If you carefully look at this resulting image, you will notice that corners are either isolated like the top left
 corner of the B logo, or they are at the end of these edges. Maybe we can't get rid of the edges directly,
-but if somehow we can remove the corners from I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup>, we can subtract it from the original I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup> and
+but if somehow we can remove the corners from I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup>, we can subtract it from the original I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup> and
 get only the corners. Actually, we can get rid of the corners. Since the corners are isolated in this image,
 applying a Gaussian blur will decrease the intensities of the corners a lot!
 
@@ -89,7 +89,7 @@ plt.imshow(corners_suppressed, cmap='gray')
 ![png](/assets/intuitive-harris_9_1.png)
 
 
-Now that we have the corners mostly suppressed image, we can try subtracting this from the I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup> and get only the corners. Let's try it:
+Now that we have the corners mostly suppressed image, we can try subtracting this from the I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup> and get only the corners. Let's try it:
 
 
 ```python
@@ -98,11 +98,11 @@ plt.imshow(Ix**2 * Iy**2 - corners_suppressed, cmap='gray')
     
 ![png](/assets/intuitive-harris_11_1.png)
 
-That doesn't seem to work, but the reason is clear. Edges of the I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup>
+That doesn't seem to work, but the reason is clear. Edges of the I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup>
 have different intensity than `corners_suppressed`, since `corners_suppressed` has been blurred.
 We want them to have the same intensity in edges so that they cancel the edges when they are subtracted.
 
-We can make the edges of I<sub>x</sub><sup>2</sup> * I<sub>y</sub><sup>2</sup> similar intensity to edges of`corners_suppressed`
+We can make the edges of I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup> similar intensity to edges of`corners_suppressed`
 by applying Gaussian blur to I<sub>x</sub><sup>2</sup> and I<sub>y</sub><sup>2</sup> seperately before multiplying them.
 We will apply the blur to squared gradients to make sure the corners are less affected by the blur.
 
