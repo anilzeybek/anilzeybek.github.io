@@ -102,7 +102,7 @@ That doesn't seem to work, but the reason is clear. Edges of the I<sub>x</sub><s
 have different intensity than `corners_suppressed`, since `corners_suppressed` has been blurred.
 We want them to have the same intensity in edges so that they cancel the edges when they are subtracted.
 
-We can make the edges of I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup> similar intensity to edges of`corners_suppressed`
+We can make the edges of I<sub>x</sub><sup>2</sup>I<sub>y</sub><sup>2</sup> similar intensity to edges of `corners_suppressed`
 by applying Gaussian blur to I<sub>x</sub><sup>2</sup> and I<sub>y</sub><sup>2</sup> seperately before multiplying them.
 We will apply the blur to squared gradients to make sure the corners are less affected by the blur.
 
