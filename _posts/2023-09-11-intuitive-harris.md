@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Intuituvely Understanding Harris Corner Detector"
+title:  "Intuitively Understanding Harris Corner Detector"
 date:   2023-09-11 13:30:00 +0200
 ---
 
