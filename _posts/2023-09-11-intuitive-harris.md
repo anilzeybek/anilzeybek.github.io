@@ -4,9 +4,9 @@ title:  "Intuituvely Understanding Harris Corner Detector"
 date:   2023-09-11 13:30:00 +0200
 ---
 
-If you ever tried to learn how the Harris corner detection algorihm works, you might have
-noticed that the process is not intuitive at all. First, you start with an energy function, you approximate it
-using Taylor approximation, get a matrix from that, then you find the eigenvalues of that matrix, etc.
+If you ever tried to learn how the Harris corner detection algorithm works, you might have
+noticed that the process is not intuitive at all. First, you start with an energy function, approximate it
+using Taylor approximation, get a matrix from that, then find the eigenvalues of that matrix, etc.
 But when you come to the final implementation, it is rather simple and seems easier.
 If you are like me, this is not intuitive at all. But today I will present you a much easier way to understand
 how the Harris corner detection algorithm works.
@@ -21,7 +21,7 @@ edges moving in different directions (they would be parallel if they moved in th
 
 So it is obvious that the gradients of the image I<sub>x</sub> and I<sub>y</sub> will both be active in the corner
 region. We know that adding I<sub>x</sub><sup>2</sup> and I<sub>y</sub><sup>2</sup> shows the regions with change
-in x ***or*** y directions (which is basis of the all edge detection algortihms). So one thing that comes to mind is multiplying the I<sub>x</sub><sup>2</sup>
+in x ***or*** y directions (which is the basis of the all edge detection algorithms). So one thing that comes to mind is multiplying the I<sub>x</sub><sup>2</sup>
 and I<sub>y</sub><sup>2</sup> so that we will only see regions on the image that have a change in both x ***and*** y
 directions at the same time, just like corners!
 
@@ -116,7 +116,7 @@ plt.imshow(corners, cmap='gray')
 ```
 ![png](/assets/intuitive-harris_13_1.png)
     
-Yes! We successfully get the corners of the image. Now if we look at the data inside `corners` matrix, you will notice that
+Yes! We successfully get the corners of the image. Now if we look at the data inside the `corners` matrix, you will notice that
 corners have extremely large values and other parts have smaller values. Let's threshold it:
 
 
@@ -151,7 +151,7 @@ And with this, we have implemented the Harris corner detection algorithm and we 
 fitting ellipses, Taylor series approximation, or any of that stuff. This implementation is equivalent to the
 other implementations of this algorithm.
 
-And here is the full code:
+Here is the full code:
 ```python
 import cv2
 import matplotlib.pyplot as plt
@@ -181,5 +181,4 @@ for i in range(img.shape[0]):
 plt.imshow(new_img, cmap="gray")
 plt.show()
 ```
-
-Hopefully, you now understand how this algorithm works and enjoy it.
+Hopefully, you now understand how this algorithm works and enjoy the process.
