@@ -410,7 +410,7 @@ Derivatives for *ab*:
 
 $$ \frac{\partial (ab)}{\partial a} = b\ \ \ \ \ \ \ \ \ \frac{\partial (ab)}{\partial b} = a$$
 
-Derivatives for *a^b*:
+Derivatives for *a<sup>b</sup>*:
 
 $$ \frac{\partial (a^b)}{\partial a} = ba^{b-1} \ \ \ \ \ \ \ \ \ \frac{\partial (a^b)}{\partial b} = a^b\log(a)$$
 
@@ -428,7 +428,7 @@ For the derivative of *x*, it will be starting from right to left:
 $$ 1\cdot(b_0a_0^{b_0-1})\cdot 1\cdot (b_1a_1^{b_1-1}) $$
 
 Just follow the edges to *x* starting from the output of the graph. I know this looks hard, but don't 
-forget that computers will do this, not you :) Now we need to substitute the *a_0*, *b_0*, *a_1* and *b_1*.
+forget that computers will do this, not you :) Now we need to substitute the a<sub>0</sub>, b<sub>0</sub>, a<sub>1</sub> and b<sub>0</sub>.
 For this we add one more thing to do edges, results they carry:
 
 ![](/assets/graph4.png)
@@ -458,7 +458,7 @@ that goes to x:
 
 This can be now translated to chain rule as:
 
-$$ \frac{\partial L}{\partial x} = \frac{\partial L}{\partial k} \cdot \frac{\partial k}{\partial m} \cdot \frac{\partial m}{\partial n} \cdot \frac{\partial m}{\partial x}$$
+$$ \frac{\partial L}{\partial x} = \frac{\partial L}{\partial k} \cdot \frac{\partial k}{\partial m} \cdot \frac{\partial m}{\partial n} \cdot \frac{\partial n}{\partial x}$$
 
 If you understand this, then the rest is a piece of cake.
 
