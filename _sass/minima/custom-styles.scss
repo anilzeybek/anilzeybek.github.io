@@ -1,2 +1,112 @@
-// Placeholder to allow defining custom styles that override everything else.
-// (Use `_sass/minima/custom-variables.scss` to override variable defaults)
+// Allow a visitor-selected theme to override the adaptive Minima skin.
+// With no data-theme attribute, Minima's prefers-color-scheme rules apply.
+:root {
+  color-scheme: light dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --minima-brand-color: #{$lm-brand-color};
+  --minima-brand-color-light: #{$lm-brand-color-light};
+  --minima-brand-color-dark: #{$lm-brand-color-dark};
+  --minima-site-title-color: #{$lm-site-title-color};
+  --minima-text-color: #{$lm-text-color};
+  --minima-background-color: #{$lm-background-color};
+  --minima-code-background-color: #{$lm-code-background-color};
+  --minima-link-base-color: #{$lm-link-base-color};
+  --minima-link-visited-color: #{$lm-link-visited-color};
+  --minima-link-hover-color: #{$lm-link-hover-color};
+  --minima-border-color-01: #{$lm-border-color-01};
+  --minima-border-color-02: #{$lm-border-color-02};
+  --minima-border-color-03: #{$lm-border-color-03};
+  --minima-table-text-color: #{$lm-table-text-color};
+  --minima-table-zebra-color: #{$lm-table-zebra-color};
+  --minima-table-header-bg-color: #{$lm-table-header-bg-color};
+  --minima-table-header-border: #{$lm-table-header-border};
+  --minima-table-border-color: #{$lm-table-border-color};
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --minima-brand-color: #{$dm-brand-color};
+  --minima-brand-color-light: #{$dm-brand-color-light};
+  --minima-brand-color-dark: #{$dm-brand-color-dark};
+  --minima-site-title-color: #{$dm-site-title-color};
+  --minima-text-color: #{$dm-text-color};
+  --minima-background-color: #{$dm-background-color};
+  --minima-code-background-color: #{$dm-code-background-color};
+  --minima-link-base-color: #{$dm-link-base-color};
+  --minima-link-visited-color: #{$dm-link-visited-color};
+  --minima-link-hover-color: #{$dm-link-hover-color};
+  --minima-border-color-01: #{$dm-border-color-01};
+  --minima-border-color-02: #{$dm-border-color-02};
+  --minima-border-color-03: #{$dm-border-color-03};
+  --minima-table-text-color: #{$dm-table-text-color};
+  --minima-table-zebra-color: #{$dm-table-zebra-color};
+  --minima-table-header-bg-color: #{$dm-table-header-bg-color};
+  --minima-table-header-border: #{$dm-table-header-border};
+  --minima-table-border-color: #{$dm-table-border-color};
+}
+
+// Syntax highlighting uses literal colors, so it needs explicit overrides too.
+html[data-theme="light"] {
+  @include lm-highlight;
+}
+
+html[data-theme="dark"] {
+  @include dm-highlight;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  margin-left: 14px;
+  padding: 7px;
+  border: 0;
+  border-radius: 50%;
+  color: $brand-color;
+  background: transparent;
+  line-height: 1;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: $text-color;
+  background-color: $border-color-01;
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid $link-base-color;
+  outline-offset: 2px;
+}
+
+.theme-toggle svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.theme-icon {
+  display: none;
+}
+
+.theme-toggle[data-theme-choice="system"] .theme-icon-system,
+.theme-toggle[data-theme-choice="light"] .theme-icon-light,
+.theme-toggle[data-theme-choice="dark"] .theme-icon-dark {
+  display: initial;
+}
+
+@include media-query($on-palm) {
+  .theme-toggle {
+    margin: 2px 8px 5px;
+  }
+}

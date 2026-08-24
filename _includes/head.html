@@ -2,7 +2,75 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
   {%- seo -%}
+  <script>
+    (function () {
+      var storageKey = "comsci-color-theme";
+      var savedTheme = "system";
+
+      try {
+        savedTheme = localStorage.getItem(storageKey) || "system";
+      } catch (error) {
+        // The system preference still works when storage is unavailable.
+      }
+
+      if (savedTheme === "light" || savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", savedTheme);
+        document.documentElement.style.colorScheme = savedTheme;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var themeToggle = document.getElementById("theme-toggle");
+        var themes = ["system", "light", "dark"];
+
+        if (!themeToggle) return;
+
+        var currentTheme = savedTheme === "light" || savedTheme === "dark"
+          ? savedTheme
+          : "system";
+
+        function updateToggle(theme) {
+          var nextTheme = themes[(themes.indexOf(theme) + 1) % themes.length];
+          var label = theme.charAt(0).toUpperCase() + theme.slice(1);
+          var nextLabel = nextTheme.charAt(0).toUpperCase() + nextTheme.slice(1);
+
+          themeToggle.setAttribute("data-theme-choice", theme);
+          themeToggle.setAttribute(
+            "aria-label",
+            "Theme: " + label + ". Switch to " + nextLabel + "."
+          );
+          themeToggle.setAttribute("title", "Theme: " + label);
+        }
+
+        updateToggle(currentTheme);
+
+        themeToggle.addEventListener("click", function () {
+          currentTheme = themes[(themes.indexOf(currentTheme) + 1) % themes.length];
+
+          if (currentTheme === "light" || currentTheme === "dark") {
+            document.documentElement.setAttribute("data-theme", currentTheme);
+            document.documentElement.style.colorScheme = currentTheme;
+          } else {
+            document.documentElement.removeAttribute("data-theme");
+            document.documentElement.style.removeProperty("color-scheme");
+          }
+
+          try {
+            if (currentTheme === "system") {
+              localStorage.removeItem(storageKey);
+            } else {
+              localStorage.setItem(storageKey, currentTheme);
+            }
+          } catch (error) {
+            // Keep the selection for this page even if it cannot be persisted.
+          }
+
+          updateToggle(currentTheme);
+        });
+      });
+    }());
+  </script>
   <link rel="stylesheet" href="{{ "/assets/css/style.css" | relative_url }}">
   {%- feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}

@@ -17,6 +17,9 @@ plugins:
 # Theme-specific settings
 
 minima:
+  # Follow the visitor's system color scheme unless they choose an override.
+  skin: auto
+
   # Minima date format.
   # Refer to https://shopify.github.io/liquid/filters/date/ if you want to customize this.
   #
