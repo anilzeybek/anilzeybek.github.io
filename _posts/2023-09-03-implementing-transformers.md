@@ -138,7 +138,7 @@ if its numeric value is `[2, 7]`, then our `encoder_embedding` will convert it t
 
 We can visualize how these embeddings work with this figure:
 
-![](/assets/embedding.jpg)
+![](/assets/embedding.jpg){: .light-diagram }
 
 Now our attention block is ready to be implemented. Let's start with the encoder.
 
@@ -173,13 +173,13 @@ This module will find the *query*, *key*, and *value* of each given token embedd
 for encoding all English words. This means that weights that will be multiplied by embeddings will be the same for both
 `Good` and `morning`.
 
-![](/assets/qkv.jpg)
+![](/assets/qkv.jpg){: .light-diagram }
 
 Next, we will calculate the similarity between each token embedding by multiplying the *query* of each embedding
 to every other embedding's *key*. This requires n^2 operations because we will calculate this for each token
 to every token.
 
-![](/assets/similarity.jpg)
+![](/assets/similarity.jpg){: .light-diagram }
 
 We could calculate this similarity with a nested for loop, but we can achieve the same result with just `Q @ K.T`, and
 it's faster and easier to read.
@@ -230,7 +230,7 @@ Now our attention module is done! Although we wrote this module for the encoder 
 decoder part as it will be needed there too. It's time to connect everything. Here is the architecture
 we are trying to build first:
 
-![](/assets/arch.jpg)
+![](/assets/arch.jpg){: .light-diagram }
 
 
 ```python
@@ -262,7 +262,7 @@ The fully connected layer at the end is for predicting the next token that will 
 Its output size will be `target_vocab_len` representing how suitable each token in the target vocabulary as the
 next token.
 
-![](/assets/next-word.jpg)
+![](/assets/next-word.jpg){: .light-diagram }
 
 Before finishing the transformer, let's add one more thing to it: residual connections. If you look at the
 transformer architecture figure, you'll see that after each attention we add residual connections. This is very easy
@@ -304,7 +304,7 @@ target tokens **up to a point** in the translation, and will get a prediction of
 Up to a point is important, we want our network to guess the next token. So we will only give the first *n* tokens of the
 translation, and expect it to find the next token.
 
-![](/assets/output-hidden.jpg)
+![](/assets/output-hidden.jpg){: .light-diagram }
 
 We will use cross entropy as our loss function. Also, we will shift the target sequences by 1 index to the right
 because we are expecting the shifted targets from our network. We can think of shifted targets are our labels.
@@ -450,7 +450,7 @@ values. Now we also want this function to add padding to our sequences to make t
 find the sequence with the maximum number of tokens first for both source sequences and target sequences, then
 pad other sequences to have the same length.
 
-![](/assets/padding.jpg)
+![](/assets/padding.jpg){: .light-diagram }
 
 
 ```python
@@ -706,7 +706,7 @@ class Transformer(nn.Module):
 
 First, we use `torch.triu` to create an upper triangular matrix. Our upper triangular matrix will look like this
 
-![](/assets/triangular.jpg)
+![](/assets/triangular.jpg){: .light-diagram }
 
 This matrix naturally has `True` in the future value for the sequence. The first token in the target sequence can only attend
 to itself and none other. The second token can only attend to the first token and itself, and so on.
@@ -959,7 +959,7 @@ encoder and the same thing for the decoder. It is just to make our network more 
 
 If our number of layers is 2, the architecture will look like this:
 
-![](/assets/2-layer.jpg)
+![](/assets/2-layer.jpg){: .light-diagram }
 
 It is very easy! Let's start by making the encoder and decoder parts separate modules so it will be easier to
 stack them up.
@@ -1361,7 +1361,7 @@ at the end, we will concat those to have the size 8x6.
 By processing the heads individually, our network has more capabilities, so we expect better results.
 
 You can understand the operations with this figure better:
-![](/assets/2-head.jpg)
+![](/assets/2-head.jpg){: .light-diagram }
 
 And before writing the code, let's make an additional very small change by dividing our similarity score by a
 value. This value is the square root of `embed_dim / num_heads` and the only reason we do this is just to make 

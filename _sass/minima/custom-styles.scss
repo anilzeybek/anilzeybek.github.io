@@ -57,6 +57,30 @@ html[data-theme="dark"] {
   @include dm-highlight;
 }
 
+.light-diagram {
+  box-sizing: border-box;
+  padding: 12px;
+  border-radius: 6px;
+  background-color: #fdfdfd;
+}
+
+html[data-theme="dark"] .light-diagram {
+  filter: brightness(0.88);
+}
+
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) .light-diagram {
+    filter: brightness(0.88);
+  }
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: $background-color;
+}
+
 .theme-toggle {
   display: inline-flex;
   align-items: center;
@@ -71,6 +95,7 @@ html[data-theme="dark"] {
   color: $brand-color;
   background: transparent;
   line-height: 1;
+  transform: translateY(-2px);
   vertical-align: middle;
   cursor: pointer;
 }

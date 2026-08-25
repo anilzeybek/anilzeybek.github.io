@@ -100,7 +100,7 @@ $$ \sigma(x) = \frac{1}{1+e^{-x}} $$
 
 If we plot it, it will look like:
 
-![](/assets/sigmoid.png)
+![](/assets/sigmoid.png){: .light-diagram }
 
 This function may seem complicated, but the intuition behind is very simple, just squash the numbers to be between
 0 and 1. This is a very popular activation function used in lots of places. There are more modern alternatives
@@ -384,13 +384,13 @@ To understand it, we should first understand the concept of computation graphs.
 A computation graph is simply a graph of operations where each node is an operation and edges represent values.
 Graph for `x * y` looks like:
 
-![](/assets/graph1.png)
+![](/assets/graph1.png){: .light-diagram }
 
 Or a more complicated operation:
 
 $$ (x^2 + 3) ^ 2 + y $$
 
-![](/assets/graph2.png)
+![](/assets/graph2.png){: .light-diagram }
 
 
 As it can be seen, it's just writing the operations differently. But the magical thing about computation graphs
@@ -416,7 +416,7 @@ $$ \frac{\partial (a^b)}{\partial a} = ba^{b-1} \ \ \ \ \ \ \ \ \ \frac{\partial
 
 Let's write these equations on top of the edges for our last graph:
 
-![](/assets/graph3.png)
+![](/assets/graph3.png){: .light-diagram }
 
 We are almost done. The only thing we need to do now is multiply the edges between the output and the variable
 you want to find its derivative.
@@ -431,7 +431,7 @@ Just follow the edges to *x* starting from the output of the graph. I know this 
 forget that computers will do this, not you :) Now we need to substitute the a<sub>0</sub>, b<sub>0</sub>, a<sub>1</sub> and b<sub>0</sub>.
 For this we add one more thing to do edges, results they carry:
 
-![](/assets/graph4.png)
+![](/assets/graph4.png){: .light-diagram }
 
 Each upper edge is an *a*, and each lower edge is a *b*:
 
@@ -454,7 +454,7 @@ This rule says that we can compose basic operation derivatives to get the full d
 so far. We multiplied basic derivatives for `f = (x^2 + 3)^2 + y`. You can see this by giving names to each node output
 that goes to x:
 
-![](/assets/graph5.png)
+![](/assets/graph5.png){: .light-diagram }
 
 This can be now translated to chain rule as:
 
@@ -657,7 +657,7 @@ $$ (x^2 + 3) ^ 2 + x $$
 
 Now the last *y* became *x*. And if we look at the computation graph it will have two different x fed into the graph:
 
-![](/assets/graph6.png)
+![](/assets/graph6.png){: .light-diagram }
 
 We will get two different derivatives for *x* since there are two paths to *x* from the output. For this,
 we will simply add those derivatives. The implementation has already been doing this by `self.grad += current_grad`.
@@ -757,17 +757,17 @@ The reason is our network is simply not capable of representing the XOR gate.
 We will fix this by adding additional layers to our network model. Until now, our neural network looked something like
 this:
 
-![](/assets/nn1.png)
+![](/assets/nn1.png){: .light-diagram }
 
 Each edge shows our weights (parameters 1 and 2), and we add bias (parameter 3) at the output layer.
 
 To increase the capabilities of our network, we will simply add a hidden layer. So it will look like:
 
-![](/assets/nn2.png)
+![](/assets/nn2.png){: .light-diagram }
 
 We could even add more layers and each layer can have any number of nodes:
 
-![](/assets/nn3.png)
+![](/assets/nn3.png){: .light-diagram }
 
 We need a different parameter for each edge now, and for non-input layers, we will need biases for each node. These
 nodes at the non-input layers are called *neurons*. We can have as many neurons and layers in neural networks. In
